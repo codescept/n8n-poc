@@ -1,35 +1,52 @@
-# n8n POC
+# n8n Proof of Concept (POC)
 
-## Setup
+## Setup Instructions
 
-```bash
+To set up the n8n instance using Docker, follow the steps below:
 
-docker volume create n8n_data
+1. **Create a Docker Volume for Persistent Data Storage:**
 
-docker run -d \
- --name n8n \
- -p 5678:5678 \
- -e GENERIC_TIMEZONE="Asia/Karachi" \
- -e TZ="Asia/Karachi" \
- -v n8n_data:/home/node/.n8n \
- docker.n8n.io/n8nio/n8n
+    ```bash
+    docker volume create n8n_data
+    ```
 
-```
+2. **Run the n8n Container:**
 
-## API Key
+    Execute the following command to run the n8n container:
 
-Create an API Key by going to - Settings > Create API Key
+    ```bash
+    docker run -d \
+     --name n8n \
+     -p 5678:5678 \
+     -e GENERIC_TIMEZONE="Asia/Karachi" \
+     -e TZ="Asia/Karachi" \
+     -v n8n_data:/home/node/.n8n \
+     docker.n8n.io/n8nio/n8n
+    ```
 
-## Create Workflow
+    This will start n8n, making it accessible on port `5678` with the timezone set to `Asia/Karachi`.
 
-Create workflow by calling `/create-workflow` endpoint
+## Generating an API Key
 
-If you want to create your own workflow. Make sure it must have a webhook node so the workflow can be executed.
+To interact with the n8n API, you will need an API Key. Follow these steps to generate one:
+
+1. Navigate to `Settings` within the n8n dashboard.
+2. Select `Create API Key`.
+3. Save the generated API Key for use in API requests.
+
+## Creating a Workflow
+
+Workflows can be created programmatically by calling the `/create-workflow` endpoint.
+
+### Requirements for Workflows
+
+- **Webhook Node:** Ensure that your workflow includes at least one webhook node. This node is essential for triggering and executing the workflow.
+
+**Important:** If your workflow includes external services or APIs, you must manually add the corresponding credentials through the n8n dashboard.
 
 ### Sample Workflow
 
-Use the above request to create sample workflow. Remember to add credentials manually in the n8n dashbaord
-if you are using the above workflow.
+To create a sample workflow, use the provided API request template to call the `/create-workflow` endpoint. You also need to create credentials to run this workflow.  
 
 ```bash
 curl --location 'http://localhost:6000/create-workflow' \
